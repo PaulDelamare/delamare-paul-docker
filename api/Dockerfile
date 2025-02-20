@@ -11,7 +11,7 @@ RUN npm i --only=production
 COPY . .
 
 # EXPOSER PORT
-EXPOSE 3000
+EXPOSE 3001
 
 # EXECUTER LE SERVEUR
-CMD [ "node", "server.js" ]
+CMD [ "npm", "run", "start" ]
