@@ -13,7 +13,10 @@
 
         <!-- Chouette -->
         <div id="owl"></div>
-        
+        <div id="pumpkin"></div>
+        <div id="spider"></div>
+        <div id="santa"></div>
+
         <header>
             <h1>Bibliothèque</h1>
             <button id="add-book-btn">Ajouter un livre</button>
@@ -22,6 +25,7 @@
         <section class="genre-section">
             <h2>Genres</h2>
             <div id="genre-buttons">
+                <button data-genre="" class="genre-btn">Tout</button>
                 <!-- Liste des genres -->
             </div>
         </section>
@@ -39,7 +43,9 @@
     <!-- Popup pour ajouter un livre -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <span id="close-modal" class="close">&times;</span>
+            <div class="closeCustom">
+                <span id="close-modal" class="close">&times;</span>
+            </div>
             <h2>Ajouter un livre</h2>
             <form id="add-book-form">
                 <label for="name">Nom :</label>

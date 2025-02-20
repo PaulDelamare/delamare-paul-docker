@@ -1,4 +1,3 @@
-/* 🚀 Styles généraux HORREUR */
 body {
     margin: 0;
     font-family: 'Creepster', cursive, Arial, sans-serif;
@@ -7,7 +6,6 @@ body {
     text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.7);
 }
 
-/* Effet de texte dégoulinant */
 @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
 ul{
     margin: 0;
@@ -23,7 +21,6 @@ ul{
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
 }
 
-/* 🚀 Style de l'en-tête */
 header {
     display: flex;
     align-items: center;
@@ -36,7 +33,6 @@ header h1 {
     text-transform: uppercase;
 }
 
-/* Bouton d'ajout de livre style horreur */
 header button {
     background: #c0392b;
     border: none;
@@ -53,7 +49,6 @@ header button:hover {
     transform: scale(1.1) rotate(-3deg);
 }
 
-/* 🚀 Sections genre et livres */
 .genre-section, .books-section {
     background: #111;
     padding: 15px;
@@ -68,7 +63,6 @@ header button:hover {
     text-transform: uppercase;
 }
 
-/* 🚀 Style des boutons de genre */
 .genre-btn {
     background: #8e0000;
     color: #fff;
@@ -86,7 +80,6 @@ header button:hover {
     box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
 }
 
-/* 🚀 Liste des livres */
 #books-list {
     display: flex;
     flex-direction: column;
@@ -94,7 +87,6 @@ header button:hover {
 }
 
 .book-item {
-    width: 100%;
     display: flex;
     justify-content: space-between;
     background: rgba(0, 0, 0, 0.8);
@@ -109,7 +101,6 @@ header button:hover {
     background: rgba(100, 0, 0, 0.9);
 }
 
-/* 🚀 Boutons de suppression */
 .delete-btn {
     background: #c0392b;
     color: white;
@@ -125,41 +116,96 @@ header button:hover {
     background: #7d0000;
     transform: scale(1.2) rotate(-5deg);
 }
-
-/* 🚀 Style du modal */
 .modal {
     display: none;
     position: fixed;
-    z-index: 100;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 100;
+}
+
+.modal.show {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .modal-content {
-    background-color: #111;
-    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
     border: 2px solid #c0392b;
-    width: 80%;
-    max-width: 400px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(192, 57, 43, 0.8);
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    animation: slideDown 0.7s ease-out;
+}
+.closeCustom{
+    width: 100%;
+    display: flex;
+    justify-content: end;
 }
 
-.close {
-    color: #c0392b;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+#close-modal {
+    font-size: 4rem;
     cursor: pointer;
 }
 
-.close:hover {
-    color: white;
+#add-book-form {
+    display: flex;
+    flex-direction: column;
+    gap:1rem;
 }
+
+#add-book-form input {
+    background-color: black;
+    border: solid red;
+    padding: 1rem;
+    border-radius: calc(infinity * 1px);
+    color: red
+}
+
+#add-book-form select {
+    background-color: black;
+    border: solid red;
+    padding: 1rem;
+    color: red
+}
+
+#add-book-form button {
+    padding: 1rem 0;
+    background-color: red;
+    color: white;
+    border-radius: calc(infinity * 1px);
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* 🚀 Animation d'apparition de l'overlay */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 🚀 Animation d'entrée du contenu de la modal */
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -60%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
 
 /* 🚀 Toast Horreur */
 .toast {
@@ -188,8 +234,92 @@ header button:hover {
     bottom: 50px;
 }
 
-/* 🚀 Animation d'une chouette maudite */
+
+#pumpkin {
+    position: fixed;
+    bottom: 20px;
+    right: -150px;
+    width: 100px;
+    height: 100px;
+    background: url('https://cdn-icons-png.flaticon.com/512/3504/3504629.png') no-repeat center;
+    background-size: contain;
+    z-index: 1000;
+    animation: runGrow 8s linear infinite;
+}
+  
+@keyframes runGrow {
+    0% {
+      transform: translateX(0) scale(1);
+    }
+    40% {
+      transform: translateX(-40vw) scale(1.5);
+    }
+    60% {
+      transform: translateX(-60vw) scale(1.5);
+    }
+    100% {
+        transform: translateX(-120vw) scale(1);
+    }
+}
+  
+/* Père Noël */
+#santa {
+    position: fixed;
+    bottom: -100px;
+    left: -100px;
+    width: 120px;
+    height: 120px;
+    background: url('https://static.vecteezy.com/system/resources/thumbnails/013/529/935/small_2x/santa-claus-rides-reindeer-sleigh-with-gift-box-isolated-website-or-poster-or-happiness-cards-banner-and-festive-new-year-3d-illustration-3d-render-png.png') no-repeat center;
+    background-size: contain;
+    z-index: 1000;
+    animation: santaFly 8s linear infinite;
+  }
+  
+  /* Animation du vol */
+  @keyframes santaFly {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(80vw, -50vh) scale(1.2);
+    }
+    100% {
+      transform: translate(100vw, -100vh) scale(1);
+      opacity: 0;
+    }
+  }
+  
+
+/* Araignée qui descend de sa toile puis remonte */
+#spider {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: url('https://static.vecteezy.com/system/resources/previews/019/990/506/non_2x/illustration-of-a-spider-isolated-on-transparent-free-png.png') no-repeat center;
+    background-size: contain;
+    z-index: 1000;
+    animation: spiderDownUp 5s ease-in-out infinite;
+  }
+  
+  @keyframes spiderDownUp {
+    0% {
+      top: -100px;
+    }
+    50% {
+      top: 40%;
+    }
+    100% {
+      top: -100px;
+    }
+  }
+
 #owl {
+    perspective: 1000px;
+    transform-style: preserve-3d;
     position: fixed;
     top: 10%;
     left: -100px;
@@ -200,26 +330,31 @@ header button:hover {
     z-index: 1000;
     animation: fly 8s linear infinite;
     filter: drop-shadow(0 0 10px red);
-}
-
-/* Animation de vol */
-@keyframes fly {
+  }
+  
+  @keyframes fly {
     0% {
-        transform: translateX(0) translateY(0) scale(1);
-        opacity: 0;
+      transform: translateX(0) translateY(0) scale(1) rotate3d(1, 0, 0, 0deg);
+      opacity: 0;
     }
     10% {
-        opacity: 1;
+      opacity: 1;
+    }
+    20% {
+      transform: translateX(20vw) translateY(5vh) scale(1) rotate3d(1, 0, 0, 0deg);
+    }
+    30% {
+      transform: translateX(30vw) translateY(10vh) scale(1) rotate3d(1, 0, 0, 360deg);
     }
     50% {
-        transform: translateX(120vw) translateY(20vh) scale(1.2);
-        opacity: 1;
+      transform: translateX(60vw) translateY(20vh) scale(1.2) rotate3d(1, 0, 0, 360deg);
     }
     90% {
-        opacity: 1;
+      opacity: 1;
     }
     100% {
-        transform: translateX(200vw) translateY(0) scale(0.8);
-        opacity: 0;
+      transform: translateX(200vw) translateY(0) scale(0.8) rotate3d(1, 0, 0, 360deg);
+      opacity: 0;
     }
-}
+  }
+  

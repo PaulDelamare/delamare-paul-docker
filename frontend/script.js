@@ -1,143 +1,109 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const bookList = document.getElementById('books-list');
-    const addBookBtn = document.getElementById('add-book-btn');
+    //  Variables globales
     const modal = document.getElementById('modal');
-    const closeModal = document.getElementById('close-modal');
-    const addBookForm = document.getElementById('add-book-form');
-    const genreSelect = document.getElementById('genre'); // 🚀 Sélecteur de genre dans le formulaire
+    const bookList = document.getElementById('books-list');
+    const genreSelect = document.getElementById('genre');
     const genreButtonsContainer = document.getElementById('genre-buttons');
+    const addBookForm = document.getElementById('add-book-form');
 
-    // Fonction pour récupérer et afficher les genres
-    function fetchGenres() {
-        fetch('/api/v1/genres')
-            .then(response => response.json())
-            .then(data => {
-                genreSelect.innerHTML = '';
-                genreButtonsContainer.innerHTML = '';
+    // Fonctions
+    const toggleModal = (show) => modal.style.display = show ? 'block' : 'none';
 
-                data.forEach(genre => {
-                    const option = document.createElement('option');
-                    option.value = genre.id;
-                    option.textContent = genre.name;
-                    genreSelect.appendChild(option);
+    document.getElementById('add-book-btn').onclick = () => toggleModal(true);
+    document.getElementById('close-modal').onclick = () => toggleModal(false);
+    window.onclick = (e) => { if (e.target === modal) toggleModal(false); };
 
-                    const button = document.createElement('button');
-                    button.textContent = genre.name;
-                    button.dataset.genreId = genre.id;
-                    button.classList.add('genre-btn');
-                    button.addEventListener('click', () => filterBooksByGenre(genre.id));
-                    genreButtonsContainer.appendChild(button);
-                });
-            })
-            .catch(error => console.error(error));
-    }
-
-    // Fonction pour récupérer et afficher les livres
-    function fetchBooks(genreId = null) {
-        let url = '/api/v1/books';
-        if (genreId) {
-            url += `?genre=${genreId}`;
-        }
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                bookList.innerHTML = ''; // 🚀 Vider la liste des livres
-
-                data.forEach(book => {
-                    const bookItem = document.createElement('li');
-                    bookItem.innerHTML = `<span>${book.name} - ${book.author} (${book.genre_name || 'Genre inconnu'})</span>`;
-                    bookItem.classList.add('book-item');
-
-                    // 🚀 Bouton de suppression avec confirmation
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.textContent = 'Supprimer';
-                    deleteBtn.classList.add('delete-btn');
-                    deleteBtn.addEventListener('click', () => {
-                        if (confirm(`🚀 Es-tu sûr de vouloir supprimer "${book.name}" de ${book.author} ?`)) {
-                            fetch(`/api/v1/books/${book.id}`, { method: 'DELETE' })
-                                .then(response => {
-                                    if (response.ok) {
-                                        bookItem.remove();
-                                        console.log(`Livre supprimé: ${book.id}`);
-                                    } else {
-                                        console.error('Erreur lors de la suppression du livre');
-                                    }
-                                })
-                                .catch(error => console.error(error));
-                        }
-                    });
-
-                    bookItem.appendChild(deleteBtn);
-                    bookList.appendChild(bookItem);
-                });
-            })
-            .catch(error => console.error("Erreur lors de la récupération des livres:", error));
-    }
-
-
-    /**
-     * Fetches the books according to the given genre ID and displays them in the page
-     * @param {number} genreId - The ID of the genre to filter the books
-     */
-    function filterBooksByGenre(genreId) {
-        fetchBooks(genreId);
-    }
-
-    // Event pour la modal
-    addBookBtn.addEventListener('click', () => {
-        modal.style.display = 'block';
-    });
-
-    closeModal.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-
-    function showToast(message) {
+    //  Affiche un message d'erreur/succès pendant 3 secondes
+    const showToast = (message) => {
         const toast = document.getElementById('toast');
         toast.textContent = message;
         toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    };
 
-        // 🚀 Disparition après 3 secondes
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
-    }
+    // Fonction pour charger les genres
+    const fetchGenres = async () => {
+        try {
+            // récupère les genres via l'api
+            const response = await fetch('/api/v1/genres');
+            const genres = await response.json();
 
+            // Affichage des genres dans les options du formulaire
+            genreSelect.innerHTML =  genres.map(({ id, name }) => `<option value="${id}">${name}</option>`).join('');
 
-    // Submit du formulaire d'ajout
-    addBookForm.addEventListener('submit', (event) => {
+            // Affichage des genres dans le conteneur
+            genreButtonsContainer.innerHTML = `<button class="genre-btn" data-genre="">Tout</button>` + genres.map(({ id, name }) => `<button class="genre-btn" data-genre="${id}">${name}</button>`).join('');
+
+            // Ajoute une requete lors que l'on clique sur un genre
+            document.querySelectorAll('.genre-btn').forEach(btn =>
+                btn.onclick = () => fetchBooks(btn.dataset.genre || null)
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    // Fonction pour charger les livres
+    const fetchBooks = async (genreId = null) => {
+        try {
+            // recupere les livres via l'api
+            const response = await fetch(`/api/v1/books${genreId ? `?genre=${genreId}` : ''}`);
+            const books = await response.json();
+
+            // Affichage des livres dans le conteneur
+            bookList.innerHTML = books.map(({ id, name, author, genre_name }) => `
+                <li class="book-item">
+                    <span>${name} - ${author} (${genre_name || 'Genre inconnu'})</span>
+                    <button class="delete-btn" data-id="${id}">Supprimer</button>
+                </li>
+            `).join('');
+
+            // Ajoute une requete lors que l'on clique sur un bouton de suppression
+            document.querySelectorAll('.delete-btn').forEach(btn => btn.onclick = () => deleteBook(btn.dataset.id, btn.parentElement));
+        } catch (error) { console.error(error); }
+    };
+
+    // Fonction pour supprimer un livre
+    const deleteBook = async (id, bookItem) => {
+
+        // Affiche une boite de dialogue de confirmation
+        if (confirm('Supprimer ce livre ?')) {
+            try {
+                const response = await fetch(`/api/v1/books/${id}`, { method: 'DELETE' });
+                if (response.ok) bookItem.remove();
+                else throw new Error('Erreur suppression');
+            } catch (error) { console.error(error); }
+        }
+    };
+
+    // Ajoute un livre
+    addBookForm.onsubmit = async (event) => {
+        // Récupère les données
         event.preventDefault();
         const name = document.getElementById('name').value;
         const author = document.getElementById('author').value;
         const genreId = genreSelect.value;
 
-        fetch('/api/v1/books', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, author, genre_id: genreId })
-        })
-            .then(response => response.json())
-            .then(() => {
-                fetchBooks(); // 🚀 Recharger la liste après ajout
-                modal.style.display = 'none';
-                addBookForm.reset();
-                showToast("📚 Livre ajouté avec succès !"); // 🚀 Afficher le message
-            })
-            .catch(error => {
-                console.error("Erreur lors de l'ajout du livre:", error);
-                showToast("❌ Erreur lors de l'ajout !");
+        // Envoie les données vers l'api
+        try {
+            const response = await fetch('/api/v1/books', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, author, genre_id: genreId })
             });
-    });
+            // Si l'ajout a fonctionné on affiche le toast
+            if (response.ok) {
+                fetchBooks();
+                toggleModal(false);
+                addBookForm.reset();
+                showToast('Livre ajouté avec succès !');
+            } else throw new Error();
+        } catch {
+            showToast('Erreur lors de l\'ajout !');
+        }
+    };
 
-
-    // Charge les genres et les livres au démarrage
+    // Chargement des genres et des livres
     fetchGenres();
     fetchBooks();
 });
