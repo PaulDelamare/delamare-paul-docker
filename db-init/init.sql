@@ -1,0 +1,47 @@
+CREATE TABLE IF NOT EXISTS `books` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `gender` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `books_gender` (
+    book_id INT NOT NULL,
+    gender_id INT NOT NULL,
+    PRIMARY KEY (book_id, gender_id),
+    FOREIGN KEY (book_id) REFERENCES books(id),
+    FOREIGN KEY (gender_id) REFERENCES gender(id)
+);
+
+INSERT INTO books (name, author) VALUES
+('The Great Gatsby', 'F. Scott Fitzgerald'),
+('To Kill a Mockingbird', 'Harper Lee'),
+('The Catcher in the Rye', 'J.D. Salinger'),
+('1984', 'George Orwell'),
+('Pride and Prejudice', 'Jane Austen'),
+('The Picture of Dorian Gray', 'Oscar Wilde'),
+('The Lord of the Rings', 'J.R.R. Tolkien'),
+('The Little Prince', 'Antoine de Saint-Exup ry'),
+('The Alchemist', 'Paulo Coelho'),
+('The Count of Monte Cristo', 'Alexandre Dumas');
+
+INSERT INTO gender (name) VALUES
+('Feminin'),
+('Masculin'),
+('Autre');
+
+INSERT INTO books_gender (book_id, gender_id) VALUES
+(1, 1),
+(1, 3),
+(2, 2),
+(2, 3),
+(3, 1),
+(3, 2),
+(4, 2),
+(4, 3),
+(5, 1),
+(5, 2);
