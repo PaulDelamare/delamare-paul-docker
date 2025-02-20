@@ -4,17 +4,17 @@ CREATE TABLE IF NOT EXISTS `books` (
     author VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `gender` (
+CREATE TABLE IF NOT EXISTS `genres` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `books_gender` (
+CREATE TABLE IF NOT EXISTS `books_genres` (
     book_id INT NOT NULL,
-    gender_id INT NOT NULL,
-    PRIMARY KEY (book_id, gender_id),
+    genre_id INT NOT NULL,
+    PRIMARY KEY (book_id, genre_id),
     FOREIGN KEY (book_id) REFERENCES books(id),
-    FOREIGN KEY (gender_id) REFERENCES gender(id)
+    FOREIGN KEY (genre_id) REFERENCES genres(id)
 );
 
 INSERT INTO books (name, author) VALUES
@@ -29,12 +29,18 @@ INSERT INTO books (name, author) VALUES
 ('The Alchemist', 'Paulo Coelho'),
 ('The Count of Monte Cristo', 'Alexandre Dumas');
 
-INSERT INTO gender (name) VALUES
-('Feminin'),
-('Masculin'),
-('Autre');
+INSERT INTO genres (name) VALUES
+('Fantasy'),
+('Science Fiction'),
+('Romance'),
+('Mystery'),
+('Horror'),
+('Thriller'),
+('Historical Fiction'),
+('Crime'),
+('Adventure');
 
-INSERT INTO books_gender (book_id, gender_id) VALUES
+INSERT INTO books_genres (book_id, genre_id) VALUES
 (1, 1),
 (1, 3),
 (2, 2),
@@ -44,4 +50,17 @@ INSERT INTO books_gender (book_id, gender_id) VALUES
 (4, 2),
 (4, 3),
 (5, 1),
-(5, 2);
+(5, 2),
+(6, 4),
+(6, 5),
+(6, 6),
+(7, 1),
+(7, 2),
+(7, 3),
+(7, 4),
+(8, 7),
+(8, 8),
+(9, 1),
+(9, 2),
+(10, 3),
+(10, 5);

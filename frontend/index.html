@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des livres</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section class="container">
+
+        <!-- Chouette -->
+        <div id="owl"></div>
+        
+        <header>
+            <h1>Bibliothèque</h1>
+            <button id="add-book-btn">Ajouter un livre</button>
+        </header>
+        <div id="owl"></div>
+        <section class="genre-section">
+            <h2>Genres</h2>
+            <div id="genre-buttons">
+                <!-- Liste des genres -->
+            </div>
+        </section>
+        <section class="books-section">
+            <h2>Liste des livres</h2>
+            <ul id="books-list">
+                <!-- List des livres -->
+            </ul>
+        </section>
+    </section>
+
+    <!-- Toast de validation d'ajout -->
+    <div id="toast" class="toast">📚 Livre ajouté avec succès !</div>
+
+    <!-- Popup pour ajouter un livre -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <h2>Ajouter un livre</h2>
+            <form id="add-book-form">
+                <label for="name">Nom :</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="author">Auteur :</label>
+                <input type="text" id="author" name="author" required>
+
+                <label for="genre">Genre :</label>
+                <select multiple id="genre" name="genre" required>
+                    <!-- Liste des genres -->
+                </select>
+
+                <button type="submit">Ajouter</button>
+            </form>
+
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
